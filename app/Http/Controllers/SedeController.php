@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Sede;
+use DataTables;
 
 class SedeController extends Controller
 {
@@ -28,7 +30,7 @@ class SedeController extends Controller
      */
     public function index()
     {
-        return view('lestoma.Protocolos.index');
+        return view('lestoma.sedes.index');
     }
 
     /**
@@ -43,9 +45,8 @@ class SedeController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-
-            $protocolos = Protocolo::all();
-            return DataTables::of($protocolos)
+            $sedes = Sede::all();
+            return DataTables::of($sedes)
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
                 ->make(true);
@@ -65,7 +66,7 @@ class SedeController extends Controller
      */
     public function create()
     {
-        return view('lestoma.Protocolos.create');
+        return view('lestoma.Sedes.create');
     }
 
     /**
@@ -77,22 +78,20 @@ class SedeController extends Controller
     /**
      * Esta funcion crea los usuarios
      */
-    public function store(ProtocoloRequest $request)
+    public function store(Request $request)
     {
-
-        $protocolo = new Protocolo();
-        $protocolo->nombre = $request->get('nombre');
-        $protocolo->protocolo = $request->get('protocolo');
-        $protocolo->descripcion = $request->get('descripcion');
-        $protocolo->save();
+        $sede = new Sede();
+        $sede->nombre = $request->get('nombre');
+        $sede->descripcion = $request->get('descripcion');
+        $sede->save();
 
         return response([
-            'msg' => 'Protocolo registrado correctamente.',
+            'msg' => 'Sede registrada correctamente.',
             'title' => '¡Registro exitoso!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -120,12 +119,11 @@ class SedeController extends Controller
      */
     public function edit($id)
     {
-        $protocolo = Protocolo::findOrFail($id);
+        $sede = Sede::findOrFail($id);
         return view(
-            'lestoma.Protocolos.edit',
-            compact('protocolo')
+            'lestoma.Sedes.edit',
+            compact('sede')
         );
-
     }
 
     /**
@@ -138,17 +136,16 @@ class SedeController extends Controller
     /**
      * Esta funcion edita los usuarios
      */
-    public function update(ProtocoloRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $protocolo = Protocolo::find($id);
-        $protocolo->nombre = $request->get('nombre');
-        $protocolo->protocolo = $request->get('protocolo');
-        $protocolo->descripcion = $request->get('descripcion');
-        $protocolo->update();
+        $sede = Sede::find($id);
+        $sede->nombre = $request->get('nombre');
+        $sede->descripcion = $request->get('descripcion');
+        $sede->update();
 
         return response([
-            'msg' => 'El protocolo se ha sido modificado exitosamente.',
-            'title' => '¡Protocolo Modificado!'
+            'msg' => 'La sede se ha sido modificado exitosamente.',
+            'title' => 'Sede Modificada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }
@@ -164,11 +161,11 @@ class SedeController extends Controller
      */
     public function destroy($id)
     {
-        Protocolo::destroy($id);
+        Sede::destroy($id);
 
         return response([
-            'msg' => 'El protocolo se ha sido eliminado exitosamente.',
-            'title' => '¡Protocolo Eliminado!'
+            'msg' => 'La sede se ha sido eliminado exitosamente.',
+            'title' => 'Sede Eliminada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
     }

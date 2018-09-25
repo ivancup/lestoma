@@ -41,3 +41,9 @@ Route::resource('admin/protocolos', 'ProtocoloController', ['as' => 'admin'])->e
     'show'
 ]);
 Route::get('admin/protocolos/data', array('as' => 'admin.protocolos.data', 'uses' => 'ProtocoloController@data'));
+
+//Sedes
+Route::resource('admin/sedes', 'SedeController', ['as' => 'admin'])->except([
+    'show'
+]);
+Route::get('admin/sedes/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));

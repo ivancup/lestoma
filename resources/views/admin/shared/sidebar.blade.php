@@ -24,6 +24,9 @@
                     <li><a href="{{ route('admin.protocolos.index')}}"><i class="fas fa-key"></i> Protocolos
                                                                 </a>
                     </li>
+                    <li><a href="{{ route('admin.sedes.index')}}"><i class="fas fa-key"></i> Sedes
+                                                                </a>
+                    </li>
                 </ul>
             </div>
 
