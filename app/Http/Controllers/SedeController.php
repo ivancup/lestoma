@@ -30,7 +30,7 @@ class SedeController extends Controller
      */
     public function index()
     {
-        return view('lestoma.sedes.index');
+        return view('lestoma.Sedes.index');
     }
 
     /**
