@@ -36,4 +36,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user');
     }
+
+    /**
+     * Relacion de mcuhos a muchos de la tabla sedes
+     */
+    public function sedes()
+    {
+        return $this->belongsToMany(Sede::class, 'sedes_usuarios', 'fk_usuario', 'fk_sede');
+    }
 }

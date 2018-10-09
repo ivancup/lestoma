@@ -26,24 +26,50 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('admin.home');
 
-//Usuarios
-Route::resource('admin/usuarios', 'UserController', ['as' => 'admin'])->except([
-    'show'
-]);
-Route::get('admin/usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'UserController@data'));
-Route::get('admin/usuario/perfil', array('as' => 'admin.usuario.perfil', 'uses' => 'UserController@perfil'));
-Route::post('admin/usuario/perfil', array(
-    'as' => 'admin.usuario.modificar_perfil',
-    'uses' => 'UserController@modificarPerfil'
-));
-//Protocolos
-Route::resource('admin/protocolos', 'ProtocoloController', ['as' => 'admin'])->except([
-    'show'
-]);
-Route::get('admin/protocolos/data', array('as' => 'admin.protocolos.data', 'uses' => 'ProtocoloController@data'));
 
-//Sedes
-Route::resource('admin/sedes', 'SedeController', ['as' => 'admin'])->except([
-    'show'
-]);
-Route::get('admin/sedes/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));
+
+Route::middleware(['auth'])->group(function () {
+    //Usuarios
+    Route::resource('admin/usuarios', 'UserController', ['as' => 'admin'])->except([
+        'show'
+    ]);
+    Route::get('admin/usuarios/data', array('as' => 'admin.usuarios.data', 'uses' => 'UserController@data'));
+    Route::get('admin/usuario/perfil', array('as' => 'admin.usuario.perfil', 'uses' => 'UserController@perfil'));
+    Route::post('admin/usuario/perfil', array(
+        'as' => 'admin.usuario.modificar_perfil',
+        'uses' => 'UserController@modificarPerfil'
+    ));
+    //Protocolos
+    Route::resource('admin/protocolos', 'ProtocoloController', ['as' => 'admin'])->except([
+        'show'
+    ]);
+    Route::get('admin/protocolos/data', array('as' => 'admin.protocolos.data', 'uses' => 'ProtocoloController@data'));
+
+    //Sedes
+    Route::resource('admin/sedes', 'SedeController', ['as' => 'admin'])->except([
+        'show'
+    ]);
+    Route::get('admin/sedes/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));
+    Route::get('admin/mostar_sedes', array('as' => 'admin.sedes.mostrar', 'uses' => 'SedeController@sedesUsuario'));
+    Route::post('admin/seleccionar_sede', array(
+        'as' => 'admin.mostrar_sedes.seleccionar_sede', 
+        'uses' => 'SedeController@seleccionarSede'
+    ));
+
+    
+    
+    Route::get('admin/datos_historicos', array(
+        'as' => 'admin.datos_historicos.index',
+        'uses' => 'DatosHistoricoController@index'
+    ));
+    Route::get('admin/sedes/data', array(
+        'as' => 'admin.datos_historicos.data', 
+        'uses' => 'DatosHistoricoController@data'
+    ));
+
+    
+});
+Route::get('admin/datos_historicos/guardar', array(
+    'as' => 'admin.datos_historicos.guardar',
+    'uses' => 'DatosHistoricoController@guardarDatos'
+));

@@ -32,12 +32,20 @@
                     <div class="title_left">
                         <h3>LESTOMA
                         </h3>
+                        
+                    </div>
+                    <div class="title_right">
+                        <h3 id="valor_sede">
+                            <i class="fas fa-sync" aria-hidden="true" onclick="mostrarSedes('{{route('admin.sedes.mostrar')}}')"></i> Sede:
+                            <small>{{ session()->has('sede')? session()->get('sede'):'Ninguna sede seleccionada.' }}</small>
+                        </h3>
                     </div>
                 </div>
                 <div class="clearfix"></div>
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.shared.mostrarSedes')
                         @yield('content')
                     </div>
                 </div>

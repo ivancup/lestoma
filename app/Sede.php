@@ -14,4 +14,9 @@ class Sede extends Model
     protected $fillable = [
         'nombre', 'descripcion'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'sedes_usuarios', 'fk_sede', 'fk_usuario');
+    }
 }

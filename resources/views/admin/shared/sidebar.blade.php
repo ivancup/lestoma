@@ -27,6 +27,16 @@
                     <li><a href="{{ route('admin.sedes.index')}}"><i class="fas fa-key"></i> Sedes
                                                                 </a>
                     </li>
+                    <li>
+                        <a>
+                            <i class="fas fa-clipboard"></i> Control <span class="fas fa-angle-down"></span>
+                        </a>
+                        <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="{{ route('admin.datos_historicos.index') }}">
+                                <i class="fas fa-table"></i> Datos históricos</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
 

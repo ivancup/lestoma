@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sede;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class SedeController extends Controller
 {
@@ -168,5 +169,19 @@ class SedeController extends Controller
             'title' => 'Sede Eliminada!'
         ], 200)// 200 Status Code: Standard response for successful HTTP request
             ->header('Content-Type', 'application/json');
+    }
+
+    public function sedesUsuario()
+    {
+        $procesos_usuario = Auth::user()->sedes()->get()->pluck('nombre', 'id');
+        return json_encode($procesos_usuario);
+    }
+    public function seleccionarSede(Request $request)
+    {
+        $sede = new Sede();
+        $sede = $sede->findOrFail($request->get('sede'))->nombre;
+        session(['sede' => $sede]);
+        session(['id_proceso' => $request->get('sede')]);
+        return redirect()->back();
     }
 }

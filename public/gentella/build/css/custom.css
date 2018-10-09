@@ -4255,8 +4255,8 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 .swal2-popup {
     font-size: 1.6rem !important;
 }
-.fa-refresh:hover {
-    color: #39aa1d;
+.fa-sync:hover {
+    color: #0732f8;
 }
 .select2 {
     width: 100% !important;
