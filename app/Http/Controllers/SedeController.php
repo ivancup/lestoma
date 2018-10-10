@@ -181,7 +181,7 @@ class SedeController extends Controller
         $sede = new Sede();
         $sede = $sede->findOrFail($request->get('sede'))->nombre;
         session(['sede' => $sede]);
-        session(['id_proceso' => $request->get('sede')]);
+        session(['id_sede' => $request->get('sede')]);
         return redirect()->back();
     }
 }

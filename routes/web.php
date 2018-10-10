@@ -26,6 +26,11 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('admin.home');
 
+Route::get('admin/datos_historicos/guardar', array(
+    'as' => 'admin.datos_historicos.guardar',
+    'uses' => 'DatosHistoricoController@guardarDatos'
+));
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -67,9 +72,19 @@ Route::middleware(['auth'])->group(function () {
         'uses' => 'DatosHistoricoController@data'
     ));
 
+    //Enviar protocolo
+    Route::get('admin/enviar_protocolo', array(
+        'as' => 'admin.enviar_protocolo.index',
+        'uses' => 'ControlProtocolo@index'
+    ));
+    Route::get('admin/enviar_protocolo/data', array(
+        'as' => 'admin.enviar_protocolo.data',
+        'uses' => 'ControlProtocolo@data'
+    ));
+    Route::post('admin/enviar_protocolo', array(
+        'as' => 'admin.enviar_protocolo.post',
+        'uses' => 'ControlProtocolo@enviar_protocolo'
+    ));
+
     
 });
-Route::get('admin/datos_historicos/guardar', array(
-    'as' => 'admin.datos_historicos.guardar',
-    'uses' => 'DatosHistoricoController@guardarDatos'
-));

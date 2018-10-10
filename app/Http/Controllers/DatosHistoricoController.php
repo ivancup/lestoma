@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\DatosHistorico;
 use DataTables;
+use Illuminate\Support\Facades\Session;
 
 class DatosHistoricoController extends Controller
 {
@@ -38,7 +39,7 @@ class DatosHistoricoController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax() && $request->isMethod('GET')) {
-            $datos_historicos = DatosHistorico::all();
+            $datos_historicos = DatosHistorico::where('fk_sede', session('id_sede'));
             return DataTables::of($datos_historicos)
                 ->make(true);
         }
