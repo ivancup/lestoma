@@ -35,7 +35,7 @@
                             <li class="sub_menu"><a href="{{ route('admin.datos_historicos.index') }}">
                                 <i class="fas fa-table"></i> Datos históricos</a>
                             </li>
-                            <li class="sub_menu"><a href="{{ route('admin.datos_historicos.index') }}">
+                            <li class="sub_menu"><a href="{{ route('admin.enviar_protocolo.index') }}">
                                 <i class="fas fa-cog"></i> Enviar protocolo</a>
                             </li>
                         </ul>

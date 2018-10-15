@@ -16,9 +16,11 @@ class TareasPendientesTable extends Migration
         Schema::create('tareas_pendientes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('fk_protocolo');
+            $table->unsignedInteger('fk_user');
             $table->timestamps();
 
             $table->foreign('fk_protocolo')->references('id')->on('protocolos')->onDelete('cascade');
+            $table->foreign('fk_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

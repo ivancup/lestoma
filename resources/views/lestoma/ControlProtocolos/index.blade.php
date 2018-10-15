@@ -6,14 +6,21 @@
 @extends('admin.layouts.app')
 
 @section('content') @component('admin.components.panel') @slot('title', 'Control Protocolos')
+    @if(session()->get('sede'))
 
     <br>
     <br>
+    
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'protocolos-table-ajax']) @slot('columns', [
-        'id','Nombre' ,'Protocolo', 'Descripcion', 'Enviar']) @endcomponent
+        'id','Nombre' ,'Protocolo', 'Descripcion', 
+        'Acciones' => ['style' => 'width:55px;']]) @endcomponent
 
     </div>
+    @else
+    Por favor seleccione una sede
+
+    @endif
     @endcomponent
 @endsection
 
@@ -46,6 +53,7 @@
 @push('functions')
     <script type="text/javascript">
         $(document).ready(function () {
+            
 
             table = $('#protocolos-table-ajax').DataTable({
                 processing: true,
@@ -54,7 +62,10 @@
                 keys: true,
                 dom: 'lBfrtip',
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                "ajax": "{{ route('admin.enviar_protocolo.data') }}",
+                "ajax": {
+                    url : "{{ route('admin.protocolos.data') }}",
+                    complete: function() { $('[data-toggle="tooltip"]').tooltip(); }
+                },
                 "columns": [
                     {data: 'id', name: 'id', "visible": false},
                     {data: 'nombre', name: 'Nombre', className: "all"},
@@ -62,7 +73,7 @@
                     {data: 'descripcion', name: 'Descripcion', className: "min-phone-l"},
                     {
                         defaultContent:
-                            '<a href="javascript:;" class="btn btn-simple btn-info btn-sm envia" data-toggle="confirmation"><i class="fas fa-trash-alt"></i></a>' +
+                            '<a data-toggle="tooltip" title="Enviar protocolo" href="javascript:;" class="btn btn-simple btn-info btn-sm enviar"><i class="fas fa-bolt"></i></a>',
                         data: 'action',
                         name: 'action',
                         title: 'Acciones',
@@ -100,6 +111,47 @@
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
+            });
+
+            table.on('click', '.enviar', function (e) {
+                e.preventDefault();
+                $tr = $(this).closest('tr');
+                var dataTable = table.row($tr).data();
+
+                $.ajax({
+                        url: "{{ route('admin.enviar_protocolo.post') }}",
+                        type: 'POST',
+                        data: {
+                            '_token': $('meta[name="_token"]').attr('content'),
+                            id_protocolo:dataTable.id
+                        },
+                        dataType: 'json',
+                        success: function (response, NULL, jqXHR) {
+                            new PNotify({
+                                title: response.title,
+                                text: response.msg,
+                                type: 'success',
+                                styling: 'bootstrap3'
+                            });
+                        },
+                        error: function (data) {
+
+                            var errores = data.responseJSON.errors;
+                            var msg = '';
+                            $.each(errores, function (name, val) {
+                                msg += val + '<br>';
+                            });
+                            new PNotify({
+                                title: "Error!",
+                                text: msg,
+                                type: 'error',
+                                styling: 'bootstrap3'
+                            });
+                        }
+                    });
+               
+
+
             });
 
         });

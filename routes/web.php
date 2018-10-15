@@ -54,20 +54,26 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('admin/sedes', 'SedeController', ['as' => 'admin'])->except([
         'show'
     ]);
+    
     Route::get('admin/sedes/data', array('as' => 'admin.sedes.data', 'uses' => 'SedeController@data'));
-    Route::get('admin/mostar_sedes', array('as' => 'admin.sedes.mostrar', 'uses' => 'SedeController@sedesUsuario'));
+    
+    
+    
+    Route::get('admin/mostrar_sedes', array('as' => 'admin.sedes.mostrar', 'uses' => 'SedeController@sedesUsuario'));
     Route::post('admin/seleccionar_sede', array(
         'as' => 'admin.mostrar_sedes.seleccionar_sede', 
         'uses' => 'SedeController@seleccionarSede'
     ));
 
+
+
     
-    
+    //Datos historicos
     Route::get('admin/datos_historicos', array(
         'as' => 'admin.datos_historicos.index',
         'uses' => 'DatosHistoricoController@index'
     ));
-    Route::get('admin/sedes/data', array(
+    Route::get('admin/datos_historicos/data', array(
         'as' => 'admin.datos_historicos.data', 
         'uses' => 'DatosHistoricoController@data'
     ));
@@ -75,16 +81,19 @@ Route::middleware(['auth'])->group(function () {
     //Enviar protocolo
     Route::get('admin/enviar_protocolo', array(
         'as' => 'admin.enviar_protocolo.index',
-        'uses' => 'ControlProtocolo@index'
+        'uses' => 'ControlProtocoloController@index'
     ));
     Route::get('admin/enviar_protocolo/data', array(
         'as' => 'admin.enviar_protocolo.data',
-        'uses' => 'ControlProtocolo@data'
+        'uses' => 'ControlProtocoloController@data'
     ));
     Route::post('admin/enviar_protocolo', array(
         'as' => 'admin.enviar_protocolo.post',
-        'uses' => 'ControlProtocolo@enviar_protocolo'
+        'uses' => 'ControlProtocoloController@enviar_protocolo'
     ));
 
     
 });
+
+Route::get('control/tareas_pendientes', 'ControlProtocoloController@enviar_tareas_pendientes');
+Route::get('control/tarea_terminada/{id}', 'ControlProtocoloController@terminar_tarea');

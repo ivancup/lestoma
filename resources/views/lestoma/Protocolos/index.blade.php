@@ -17,7 +17,7 @@
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'protocolo-table-ajax']) @slot('columns', [
         'id', 'Nombre', 'Descripcion', 'Protocolo',
-    'Acciones']) @endcomponent
+    'Acciones' => ['style' => 'width:85px;']]) @endcomponent
 
     </div>
     @endcomponent
