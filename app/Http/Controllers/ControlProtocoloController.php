@@ -71,7 +71,7 @@ class ControlProtocoloController extends Controller
         if ($request->ajax() && $request->isMethod('GET')) {
 
             $tareasTerminadas = TareaHistorial::with('user')
-                ->orderBy('created_at' , 'asc')
+                ->orderBy('created_at' , 'desc')
                 ->get();
             return DataTables::of($tareasTerminadas)
                 ->addColumn('usuario', function ($tareaTerminada) {
