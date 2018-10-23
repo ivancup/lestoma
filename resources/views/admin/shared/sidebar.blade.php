@@ -38,6 +38,9 @@
                             <li class="sub_menu"><a href="{{ route('admin.enviar_protocolo.index') }}">
                                 <i class="fas fa-cog"></i> Enviar protocolo</a>
                             </li>
+                            <li class="sub_menu"><a href="{{ route('admin.tareas_historial.index') }}">
+                                <i class="fas fa-history"></i> Historial tareas terminadas</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

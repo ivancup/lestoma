@@ -92,6 +92,16 @@ Route::middleware(['auth'])->group(function () {
         'uses' => 'ControlProtocoloController@enviar_protocolo'
     ));
 
+    //Historial tareas terminadas
+    Route::get('admin/historial_tareas', array(
+        'as' => 'admin.tareas_historial.index',
+        'uses' => 'ControlProtocoloController@tareasTerminadas'
+    ));
+    Route::get('admin/historial_tareas/data', array(
+        'as' => 'admin.tareas_historial.data',
+        'uses' => 'ControlProtocoloController@tareasTerminadasData'
+    ));
+
     
 });
 

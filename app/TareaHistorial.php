@@ -29,6 +29,6 @@ class TareaHistorial extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'fk_user', 'id');
+        return $this->belongsTo(User::class, 'fk_users', 'id');
     }
 }

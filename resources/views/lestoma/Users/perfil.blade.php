@@ -15,7 +15,7 @@
             'class' => 'form-horizontal form-label-lef',
             'novalidate'
         ])!!}
-        @include('autoevaluacion.SuperAdministrador.Users._form_perfil')
+        @include('lestoma.Users._form_perfil')
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-3">

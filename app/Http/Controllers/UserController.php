@@ -229,17 +229,17 @@ class UserController extends Controller
 
     public function perfil()
     {
-        $estados = Estado::pluck('ESD_Nombre', 'PK_ESD_Id');
+        $sedes = Sede::pluck('nombre', 'id');
         $roles = Role::pluck('name', 'name');
         $user = User::findOrFail(Auth::id());
         $edit = true;
         return view(
-            'lestoma.SuperAdministrador.Users.perfil',
-            compact('user', 'estados', 'roles', 'edit')
+            'lestoma.Users.perfil',
+            compact('user', 'sedes', 'roles', 'edit')
         );
     }
 
-    public function modificarPerfil(PerfilUsuarioRequest $request)
+    public function modificarPerfil(Request $request)
     {
         $user = User::find(Auth::id());
         $user->fill($request->except('password'));
@@ -257,6 +257,9 @@ class UserController extends Controller
             $roles = $request->input('roles') ? $request->input('roles') : [];
             $user->syncRoles($roles);
         }
+
+        $sedes = $request->input('sedes') ? $request->input('sedes') : [];
+        $user->sedes()->sync($sedes);
 
         return response([
             'msg' => 'El usuario se ha sido modificado exitosamente.',

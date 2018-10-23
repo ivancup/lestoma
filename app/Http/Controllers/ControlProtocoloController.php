@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\TareaPendiente;
 use App\TareaHistorial;
 use Illuminate\Support\Facades\Auth;
+use DataTables;
 
 class ControlProtocoloController extends Controller
 {
@@ -58,7 +59,26 @@ class ControlProtocoloController extends Controller
         TareaPendiente::destroy($id);
 
         return('exito');
+    }
 
+    public function tareasTerminadas()
+    {
+        return view('lestoma.DatosHistoricos.tareas_terminadas');
+    }
 
+    public function tareasTerminadasData(Request $request)
+    {
+        if ($request->ajax() && $request->isMethod('GET')) {
+
+            $tareasTerminadas = TareaHistorial::with('user')
+                ->orderBy('created_at' , 'asc')
+                ->get();
+            return DataTables::of($tareasTerminadas)
+                ->addColumn('usuario', function ($tareaTerminada) {
+                    return $tareaTerminada->user->name . ' ' . $tareaTerminada->user->lastname;
+                })
+                ->make(true);
+
+        }
     }
 }
