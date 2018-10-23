@@ -12,6 +12,7 @@ use App\Http\Requests\PerfilUsuarioRequest;
 use Illuminate\Support\Facades\Gate;
 use App\User;
 use App\Estado;
+use App\Sede;
 
 class UserController extends Controller
 {
@@ -53,17 +54,25 @@ class UserController extends Controller
     {
         if ($request->ajax() && $request->isMethod('GET')) {
 
-            $users = User::where('id', '!=', Auth::id());
+            $users = User::where('id', '!=', Auth::id())->with('sedes');
             return DataTables::of($users)
                 ->addColumn('roles', function ($users) {
                     if (!$users->roles) {
                         return '';
                     }
                     return $users->roles->map(function ($rol) {
-                        return str_limit($rol->name, 30, '...');
+                        return "<span class='label label-sm label-info'>" . $rol->name . "</span>" ;
                     })->implode(', ');
                 })
-                ->rawColumns(['estado'])
+                ->addColumn('sedes', function ($users) {
+                    if (!$users->sedes) {
+                        return '';
+                    }
+                    return $users->sedes->map(function ($sede) {
+                        return "<span class='label label-sm label-info'>" . $sede->nombre . "</span>";
+                    })->implode(', ');
+                })
+                ->rawColumns(['sedes', 'roles'])
                 ->removeColumn('cedula')
                 ->removeColumn('created_at')
                 ->removeColumn('updated_at')
@@ -88,7 +97,8 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name', 'name');
         $estados = Estado::pluck('nombre', 'id');
-        return view('lestoma.Users.create', compact('estados', 'roles'));
+        $sedes = Sede::pluck('nombre', 'id');
+        return view('lestoma.Users.create', compact('estados', 'roles', 'sedes'));
     }
 
     /**
@@ -109,6 +119,9 @@ class UserController extends Controller
         $user->password = bcrypt($request->get('password'));
         $user->id_estado = $request->get('id_estado');
         $user->save();
+
+        $sedes = $request->input('sedes')? $request->input('sedes') : [];
+        $user->sedes()->sync($sedes);
 
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
@@ -151,10 +164,11 @@ class UserController extends Controller
         $estados = Estado::pluck('nombre', 'id');
         $roles = Role::pluck('name', 'name');
         $user = User::findOrFail($id);
+        $sedes = Sede::pluck('nombre', 'id');
         $edit = true;
         return view(
             'lestoma.Users.edit',
-            compact('user', 'estados', 'roles', 'edit', 'programa')
+            compact('user', 'estados', 'roles', 'edit', 'sedes')
         );
 
     }
@@ -182,6 +196,9 @@ class UserController extends Controller
 
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
+
+        $sedes = $request->input('sedes') ? $request->input('sedes') : [];
+        $user->sedes()->sync($sedes);
 
         return response([
             'msg' => 'El usuario ha sido modificado exitosamente.',

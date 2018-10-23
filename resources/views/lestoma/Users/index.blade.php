@@ -16,7 +16,7 @@
     <br>
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'usuario-table-ajax']) @slot('columns', [
-        'id', 'Nombre', 'Apellido', 'Email', 'Roles',
+        'id', 'Nombre', 'Apellido', 'Email', 'Roles', 'Sedes',
     'Acciones' => ['style' => 'width:85px;']]) @endcomponent
 
     </div>
@@ -78,6 +78,7 @@
                     {data: 'lastname', name: 'Nombre', className: "all"},
                     {data: 'email', name: 'Email', className: "min-phone-l"},
                     {data: 'roles', name: 'roles.name', className: "desktop"},
+                    {data: 'sedes', name: 'sedes', className: "desktop"},
                     {
                         defaultContent:
                             '<a href="javascript:;" class="btn btn-simple btn-danger btn-sm remove" data-toggle="confirmation"><i class="fas fa-trash-alt"></i></a>' +

@@ -7,8 +7,8 @@
     <title>Enviar</title>
 </head>
 <body>
-    @if(isset($tarea))
-        {{ $tarea[0]->id . ','  . $tarea[0]->protocolo->protocolo}}
+    @if($tarea->isNotEmpty())
+        {{  $tarea[0]->protocolo->protocolo . ';'  .  $tarea[0]->id }}
     @endif
 </body>
 </html>
