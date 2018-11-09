@@ -2,5 +2,5 @@
 <br />
 
 <div>
-    <h1><i class="fas fa-fish"></i> Lestoma</h1>
+<h1><img src="{{asset('img.png')}}" alt=""> Lestoma</h1>
 </div>

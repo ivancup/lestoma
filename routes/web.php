@@ -101,6 +101,11 @@ Route::middleware(['auth'])->group(function () {
         'as' => 'admin.tareas_historial.data',
         'uses' => 'ControlProtocoloController@tareasTerminadasData'
     ));
+    //Graficas
+    Route::get('admin/graficas', array(
+        'as' => 'admin.graficas.index',
+        'uses' => 'GraficaController@index'
+    ));
 
     
 });

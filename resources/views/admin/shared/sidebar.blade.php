@@ -41,6 +41,9 @@
                             <li class="sub_menu"><a href="{{ route('admin.tareas_historial.index') }}">
                                 <i class="fas fa-history"></i> Historial tareas terminadas</a>
                             </li>
+                            <li class="sub_menu"><a href="{{ route('admin.graficas.index') }}">
+                                                            <i class="fas fa-chart-area"></i> Gráficas</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

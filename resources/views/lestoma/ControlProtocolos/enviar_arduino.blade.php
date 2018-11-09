@@ -8,7 +8,7 @@
 </head>
 <body>
     @if($tarea->isNotEmpty())
-        {{  $tarea[0]->protocolo->protocolo . ';'  .  $tarea[0]->id }}
+        {{  $tarea[0]->protocolo->protocolo . ';'  .  $tarea[0]->id . ';' }}
     @endif
 </body>
 </html>

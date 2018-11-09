@@ -30,7 +30,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>LESTOMA
+                        <h3>UNIVERSIDAD DE CUNDINAMARCA
                         </h3>
                         
                     </div>
