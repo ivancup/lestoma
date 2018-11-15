@@ -106,6 +106,12 @@ Route::middleware(['auth'])->group(function () {
         'as' => 'admin.graficas.index',
         'uses' => 'GraficaController@index'
     ));
+    Route::post('admin/graficas/data', array(
+        'as' => 'admin.graficas.data',
+        'uses' => 'GraficaController@obtenerDatos'
+    ));
+
+    
 
     
 });

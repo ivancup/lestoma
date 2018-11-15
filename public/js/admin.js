@@ -19,3 +19,46 @@ function mostrarSedes(ruta) {
         }
     });
 }
+function fecha(nombre) {
+    $(nombre).daterangepicker({
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "De",
+            "toLabel": "A",
+            "customRangeLabel": "Custom",
+            "weekLabel": "S",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+            "firstDay": 1
+        },
+        singleDatePicker: true,
+        showDropdowns: true,
+        maxDate: moment(),
+        "drops": "down"
+
+    });
+}
