@@ -10,9 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', 'Publica\HomeController@index')->name('home');
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.in');
@@ -30,8 +28,10 @@ Route::get('admin/datos_historicos/guardar', array(
     'as' => 'admin.datos_historicos.guardar',
     'uses' => 'DatosHistoricoController@guardarDatos'
 ));
-
-
+Route::resource('admin/contactenos', 'ContactoController', ['as' => 'admin'])->except([
+    'show'
+]);
+Route::get('admin/contactenos/data', array('as' => 'admin.contactenos.data', 'uses' => 'ContactoController@data'));
 
 Route::middleware(['auth'])->group(function () {
     //Usuarios
@@ -65,9 +65,6 @@ Route::middleware(['auth'])->group(function () {
         'uses' => 'SedeController@seleccionarSede'
     ));
 
-
-
-    
     //Datos historicos
     Route::get('admin/datos_historicos', array(
         'as' => 'admin.datos_historicos.index',

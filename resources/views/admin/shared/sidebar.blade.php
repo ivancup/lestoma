@@ -46,6 +46,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li><a href="{{ route('admin.contactenos.index')}}"><i class="fas fa-key"></i> Mensajes
+                                                                </a>
+                    </li>
                 </ul>
             </div>
 
