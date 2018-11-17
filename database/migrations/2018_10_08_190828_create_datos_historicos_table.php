@@ -15,10 +15,7 @@ class CreateDatosHistoricosTable extends Migration
     {
         Schema::create('datos_historicos', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('temperatura_ambiente')->nullable();
-            $table->double('temperatura_agua')->nullable();
-            $table->double('ph')->nullable();
-            $table->double('humedad')->nullable();
+            $table->json('atributos');
             $table->unsignedInteger('fk_sede');
             $table->timestamps();
 
