@@ -12,11 +12,29 @@ class GraficaController extends Controller
     public function index()
     {
         $fechaInicio = Carbon::now();
-        return view('lestoma.Graficas.index', compact('fechaInicio'));
+        $tipo = collect([
+            ['nombre' => 'Temperatura ambiente'],
+            ['nombre' => 'Temperatura agua'],
+            ['nombre' => 'PH'],
+            ['nombre' => 'Conductividad'],
+            ['nombre' => 'Turbiedad'],
+            ['nombre' => 'Calidad del aire'],
+            ['nombre' => 'Propano'],
+            ['nombre' => 'Monoxido de carbono'],
+            ['nombre' => 'Flujo del agua'],
+            ['nombre' => 'Luminosidad'],
+            ['nombre' => 'Flujo lluvia'],
+            ['nombre' => 'Flujo tanque'],
+            ['nombre' => 'Voltaje']
+        ]);
+
+        $tipos = $tipo->pluck('nombre', 'nombre');
+        return view('lestoma.Graficas.index', compact('fechaInicio', 'tipos'));
     }
 
     public function obtenerDatos(Request $request)
     {
+
         $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->get('fecha_inicio'));
         $fechaFin = Carbon::createFromFormat('d/m/Y', $request->get('fecha_fin'));
         $datos = DatosHistorico::whereDate('created_at', '>=', $fechaInicio)
@@ -24,25 +42,21 @@ class GraficaController extends Controller
             ->where('fk_sede', '=', session()->get('id_sede'))
             ->get();
 
-        $temperatura_ambiente = [];
-        $temperatura_agua = [];
-        $ph = [];
-        $humedad = [];
+        $data_grafica = [];
         $fechas = [];
 
         foreach ($datos as $key => $data) {
-            array_push($temperatura_ambiente, $data->temperatura_ambiente);
-            array_push($temperatura_agua, $data->temperatura_agua);
-            array_push($ph, $data->ph);
-            array_push($humedad, $data->humedad);
-            array_push($fechas, (string)$data->created_at);
+            $array = json_decode($data->atributos, true);
+            if(isset($array[$request->get('tipo')])){
+                array_push($data_grafica, $array[$request->get('tipo')]);
+                array_push($fechas, (string)$data->created_at);
+            }
         }
 
         $datos = [];
-        $datos['temperaturas'] = array($temperatura_ambiente, $temperatura_agua);
-        $datos['ph'] = array($ph);
-        $datos['humedad'] = array($humedad);
+        $datos['data'] = array($data_grafica);
         $datos['fechas'] = $fechas;
+        $datos['tipo'] = $request->get('tipo');
         
         return json_encode($datos);
     }

@@ -11,7 +11,7 @@
     <br>
     <div class="col-md-12">
         @component('admin.components.datatable', ['id' => 'datos_historicos-table-ajax']) @slot('columns', [
-        'id','Fecha' ,'Temperatura ambiente', 'Temperatura agua', 'PH', 'Humedad']) @endcomponent
+        'id','Fecha' ,'Atributos']) @endcomponent
 
     </div>
     @endcomponent
@@ -58,11 +58,7 @@
                 "columns": [
                     {data: 'id', name: 'id', "visible": false},
                     {data: 'created_at', name: 'Fecha', className: "all"},
-                    {data: 'temperatura_ambiente', name: 'Temperatura ambiente', className: "all"},
-                    {data: 'temperatura_agua', name: 'Temperatura agua', className: "min-phone-l"},
-                    {data: 'ph', name: 'Ph', className: "min-phone-l"},
-                    {data: 'humedad', name: 'Humedad', className: "min-phone-l"}
-                    
+                    {data: 'atributos', name: 'Atributos', className: "all"}
                 ],
                 language: {
                     "sProcessing": "Procesando...",

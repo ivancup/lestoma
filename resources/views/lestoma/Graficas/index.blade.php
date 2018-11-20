@@ -16,9 +16,15 @@
                     [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required', 'id' => 'fecha_inicio' ] ) !!}
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    {!! Form::label('PK_PCS_Id', 'Fecha Fin', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} 
+                    {!! Form::label('fecha_fin', 'Fecha Fin', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} 
                    {!! Form::text('fecha_fin', old('fecha_fin', isset($fechaInicio)?(string)$fechaInicio->format('d/m/Y'):''),
                     [ 'class' => 'form-control col-md-6 col-sm-6 col-xs-12', 'required' => 'required', 'id' => 'fecha_fin' ] ) !!}
+                </div>
+                <div class=" col-md-6 col-sm-6 col-xs-12">
+                    {!! Form::label('tipo', 'Tipo', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12']) !!} 
+                    {!! Form::select('tipo', isset($tipos)?$tipos:[],
+                    old('area'), ['class' => 'select2 form-control', 'placeholder' => 'Seleccione un tipo de variable', 'required' => '', 'id' => 'tipo'])
+                    !!}
                 </div>
             </form>
         </div>
@@ -29,17 +35,7 @@
         <div id="graficas" class="hidden">
         
             <div class="row">
-                    <canvas id="fechas_temperatura" height="200"></canvas>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-md-6 col-xs-12">
-                    <canvas id="ph" height="320"></canvas>
-                </div>
-                <div class="col-md-6 col-xs-12">
-                    <canvas id="humedad" height="320"></canvas>
-                </div>
+                    <canvas id="datos" height="200"></canvas>
             </div>
         </div>
     @else
@@ -61,6 +57,8 @@
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.js') }}"></script>
     <script src="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('gentella/vendors/select2/dist/js/select2.full.min.js') }}"></script>
 @endpush
 
 {{-- Estilos necesarios para el formulario --}}
@@ -72,8 +70,7 @@
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
     <link href="{{ asset('gentella/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
-
-    
+    <link href="{{ asset('gentella/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
 {{-- Funciones necesarias por el formulario --}} @push('functions')
@@ -81,13 +78,16 @@
     $(document).ready(function () {
         fecha('#fecha_inicio'); 
         fecha('#fecha_fin');
+        $('#tipo').select2();
         var form = $('#form_selecionar_fecha');
-        $("#fecha_inicio, #fecha_fin").change(function () {
+        $("#fecha_inicio, #fecha_fin, #tipo").change(function () {
             let fechaInicio = new Date($('#fecha_inicio').val());
             let fechaFin = new Date($('#fecha_fin').val());
+            let tipo = $('#tipo').val();
             
             console.log(fechaInicio);
             console.log(fechaFin);
+            console.log(tipo);
 
             if(fechaInicio > fechaFin){
                 new PNotify({
@@ -97,7 +97,7 @@
                         styling: 'bootstrap3'
                 });
             }
-            else{
+            else if($('#tipo').val() != ''){
                 $.ajax({
                         url: form.attr('action'),
                         type: form.attr('method'),
@@ -105,35 +105,18 @@
                         dataType: 'json',
                         success: function (r) {
                             $('#graficas').removeClass('hidden');
-                            if(chartTemperaturas != null && chartPH != null && chartHumedad != null){
-                                chartTemperaturas.destroy();
-                                chartPH.destroy();
-                                chartHumedad.destroy();
+                            if(chartData != null){
+                                chartData.destroy();
                             }
-                            var chartTemperaturas = crearGrafica(
-                                'fechas_temperatura',
+                            var chartData = crearGrafica(
+                                'datos',
                                 'line', 
-                                'Temperatura del laboratorio',
+                                r.tipo,
                                 r.fechas,
-                                ['temperatura ambiente', 'temperatura agua'],
-                                r.temperaturas 
+                                [r.tipo],
+                                r.data 
                             );
-                            var chartPH = crearGrafica(
-                                'ph',
-                                'line', 
-                                'PH del agua',
-                                r.fechas,
-                                ['PH'],
-                                r.ph 
-                            );
-                            var chartHumedad = crearGrafica(
-                                'humedad',
-                                'line', 
-                                'Humedad',
-                                r.fechas,
-                                ['Humedad'],
-                                r.humedad 
-                            );
+                            
                         }
                             
                 });
