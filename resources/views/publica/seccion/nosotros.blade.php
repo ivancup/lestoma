@@ -5,7 +5,10 @@
             <h2 class="mb-4">Nosotros</h2>
             </div>
         <div>
-  			<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+  			<p ALIGN="justify">SERFAC  es un semillero adscrito al Grupo de Investigación GISTFA del programa ingeniería de sistemas facatativá. Y busca fortalecer y promover procesos de Investigación, Desarrollo e Innovación (I+D+I) que permitan solucionar problemáticas que requieran  automatización de tareas y procesos  desde el hardware y  el software  apoyados en  disciplinas como la robótica , la IA, el desarrollo de software  entre otras.</p>
   	    </div>
+          <h2 class="mb-4">Línea de investigación</h2>
+          <p ALIGN="justify">Sistemas Emergentes y Nuevas Tecnologías.</p>
+          <p ALIGN="justify">Semillero de Robótica Facatativá “SERFAC”.</p>
     </div>
 </section>
